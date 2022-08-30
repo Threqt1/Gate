@@ -1,0 +1,16 @@
+{
+  "name": "gate",
+  "version": "1.0.0",
+  "description": "a discord bot for games",
+  "main": "out/index.js",
+  "scripts": {
+    "compile": "tsc",
+    "start": "node .",
+    "run": "tsc && node ."
+  },
+  "author": "krish and kevin",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^18.7.14"
+  }
+}
