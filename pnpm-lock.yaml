@@ -5,6 +5,7 @@ specifiers:
   '@types/node': ^18.7.14
   bufferutil: ^4.0.6
   discord.js: ^14.3.0
+  dotenv: ^16.0.2
   erlpack: ^0.1.4
   utf-8-validate: ^5.0.9
   zlib-sync: ^0.1.7
@@ -13,6 +14,7 @@ dependencies:
   '@discordjs/rest': 1.1.0
   bufferutil: 4.0.6
   discord.js: 14.3.0_22kvxa7zeyivx4jp72v2w3pkvy
+  dotenv: 16.0.2
   erlpack: 0.1.4
   utf-8-validate: 5.0.9
   zlib-sync: 0.1.7
@@ -118,6 +120,11 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
+    dev: false
+
+  /dotenv/16.0.2:
+    resolution: {integrity: sha512-JvpYKUmzQhYoIFgK2MOnF3bciIZoItIIoryihy0rIA+H4Jy0FmgyKYAHCTN98P5ybGSJcIFbh6QKeJdtZd1qhA==}
+    engines: {node: '>=12'}
     dev: false
 
   /erlpack/0.1.4:
