@@ -1,1 +1,1 @@
-console.log("asdawada");
+console.log("")
