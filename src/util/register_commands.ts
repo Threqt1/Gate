@@ -13,58 +13,14 @@ export async function registerCommands(
 ) {
   const rest = new REST({ version: "10" }).setToken(process.env.token!);
   if (locally) {
-    let existingCommands: ApplicationCommandJSON[] = (await rest.get(
+    await rest.put(
       Routes.applicationGuildCommands(
         process.env.clientId!,
         process.env.devGuildId!
-      )
-    )) as ApplicationCommandJSON[];
-
-    let remainingCommands: ApplicationCommandJSON[] = [];
-
-    for (let existingCommand of existingCommands) {
-      if (
-        !commands.find(
-          (r) =>
-            r.info.name.toLowerCase() === existingCommand.name.toLowerCase()
-        )
-      ) {
-        await rest.delete(
-          Routes.applicationGuildCommand(
-            process.env.clientId!,
-            process.env.devGuildId!,
-            existingCommand.id
-          )
-        );
-      } else {
-        remainingCommands.push(existingCommand);
+      ),
+      {
+        body: commands.map((r) => r.info.toJSON()),
       }
-    }
-
-    let toBeRegistered: RESTPatchAPIApplicationCommandJSONBody[] = [];
-
-    for (let possibleCommand of commands) {
-      if (
-        !remainingCommands.find(
-          (r) =>
-            r.name.toLowerCase() === possibleCommand.info.name.toLowerCase()
-        )
-      ) {
-        toBeRegistered.push(possibleCommand.info.toJSON());
-      }
-    }
-
-    if (toBeRegistered.length > 0) {
-      toBeRegistered = toBeRegistered.concat(remainingCommands);
-      await rest.put(
-        Routes.applicationGuildCommands(
-          process.env.clientId!,
-          process.env.devGuildId!
-        ),
-        {
-          body: toBeRegistered,
-        }
-      );
-    }
+    );
   }
 }
