@@ -3,7 +3,9 @@
 <a href="https://nodejs.org/en/"><img src="https://img.shields.io/badge/language-nodejs-%23339933?style=flat-square&logo=node.js"></a>
 </p>
 
-<p align="center">A bot made for the Game's discord server using [discord.js](https://github.com/discordjs/discord.js)</p>
+<p align="center">
+A bot made for the Game's discord server using discord.js
+</p>
 
 <hr>
 
@@ -12,6 +14,7 @@
 - [NodeJS >= v16.17.0](https://nodejs.org/en/)
 - NPM or PNPM
 - [Typescript >= 4.8.2](https://www.typescriptlang.org/)
+- [Discord.js](https://github.com/discordjs/discord.js)
 
 ## ⬇️ Installation
 
