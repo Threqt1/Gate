@@ -1,6 +1,6 @@
 import { CommandInfo } from "../defs/CommandInfo";
 import { REST } from "@discordjs/rest";
-import { RESTPatchAPIApplicationCommandJSONBody, Routes } from "discord.js";
+import { Routes } from "discord.js";
 
 interface ApplicationCommandJSON {
   name: string;
