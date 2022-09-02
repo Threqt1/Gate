@@ -3,7 +3,7 @@
 <a href="https://nodejs.org/en/"><img src="https://img.shields.io/badge/language-nodejs-%23339933?style=flat-square&logo=node.js"></a>
 </p>
 
-A bot made for the Game's discord server using (discord.js)[https://github.com/discordjs/discord.js]
+<p align="center">A bot made for the Game's discord server using [discord.js](https://github.com/discordjs/discord.js)</p>
 
 <hr>
 
