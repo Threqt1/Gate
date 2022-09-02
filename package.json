@@ -4,16 +4,19 @@
   "description": "a discord bot for games",
   "main": "out/index.js",
   "scripts": {
+    "prebuild": "rimraf out/",
     "compile": "tsc",
     "start": "node .",
-    "run": "tsc && node ."
+    "run": "npm run prebuild && npm run compile && npm run start"
   },
   "author": "krish and kevin",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^18.7.14"
+    "@types/node": "^18.7.14",
+    "rimraf": "^3.0.2"
   },
   "dependencies": {
+    "@discordjs/builders": "^1.2.0",
     "@discordjs/rest": "^1.1.0",
     "bufferutil": "^4.0.6",
     "discord.js": "^14.3.0",

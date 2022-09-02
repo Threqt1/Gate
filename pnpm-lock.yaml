@@ -1,16 +1,19 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@discordjs/builders': ^1.2.0
   '@discordjs/rest': ^1.1.0
   '@types/node': ^18.7.14
   bufferutil: ^4.0.6
   discord.js: ^14.3.0
   dotenv: ^16.0.2
   erlpack: ^0.1.4
+  rimraf: ^3.0.2
   utf-8-validate: ^5.0.9
   zlib-sync: ^0.1.7
 
 dependencies:
+  '@discordjs/builders': 1.2.0
   '@discordjs/rest': 1.1.0
   bufferutil: 4.0.6
   discord.js: 14.3.0_22kvxa7zeyivx4jp72v2w3pkvy
@@ -21,6 +24,7 @@ dependencies:
 
 devDependencies:
   '@types/node': 18.7.14
+  rimraf: 3.0.2
 
 packages:
 
@@ -84,11 +88,22 @@ packages:
       '@types/node': 18.7.14
     dev: false
 
+  /balanced-match/1.0.2:
+    resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
+    dev: true
+
   /bindings/1.5.0:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
     dependencies:
       file-uri-to-path: 1.0.0
     dev: false
+
+  /brace-expansion/1.1.11:
+    resolution: {integrity: sha512-iCuPHDFgrHX7H2vEI/5xpz07zSHB00TpugqhmYtVmMO6518mCuRMoOYFldEBl0g187ufozdaHgWKcYFb61qGiA==}
+    dependencies:
+      balanced-match: 1.0.2
+      concat-map: 0.0.1
+    dev: true
 
   /bufferutil/4.0.6:
     resolution: {integrity: sha512-jduaYOYtnio4aIAyc6UbvPCVcgq7nYpVnucyxr6eCYg/Woad9Hf/oxxBRDnGGjPfjUm6j5O/uBWhIu4iLebFaw==}
@@ -97,6 +112,10 @@ packages:
     dependencies:
       node-gyp-build: 4.5.0
     dev: false
+
+  /concat-map/0.0.1:
+    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
+    dev: true
 
   /discord-api-types/0.37.5:
     resolution: {integrity: sha512-RhzoX02jw2M+n/AU5K74KTM4J8Sn3ZImUJvoA4lh+SDcrqi1ddSjrafciF4bECj4rPc2vHwoyyTNgbUwE8vbpA==}
@@ -152,13 +171,34 @@ packages:
     resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==}
     dev: false
 
+  /fs.realpath/1.0.0:
+    resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
+    dev: true
+
+  /glob/7.2.3:
+    resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
+    dependencies:
+      fs.realpath: 1.0.0
+      inflight: 1.0.6
+      inherits: 2.0.4
+      minimatch: 3.1.2
+      once: 1.4.0
+      path-is-absolute: 1.0.1
+    dev: true
+
   /ieee754/1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
     dev: false
 
+  /inflight/1.0.6:
+    resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
+    dependencies:
+      once: 1.4.0
+      wrappy: 1.0.2
+    dev: true
+
   /inherits/2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
-    dev: false
 
   /lodash.snakecase/4.1.1:
     resolution: {integrity: sha512-QZ1d4xoBHYUeuouhEq3lk3Uq7ldgyFXGBhg04+oRLnIz8o9T65Eh+8YdroUwn846zchkA9yDsDl5CVVaV2nqYw==}
@@ -168,6 +208,12 @@ packages:
     resolution: {integrity: sha512-7lYL8bLopMoy4CTICbxygAUq6CdRJ36vFc80DucPueUee+d5NBRxz3FdT9Pes/HEx5mPoT9jwnsEJWz1N7uq7Q==}
     dev: false
 
+  /minimatch/3.1.2:
+    resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
+    dependencies:
+      brace-expansion: 1.1.11
+    dev: true
+
   /nan/2.16.0:
     resolution: {integrity: sha512-UdAqHyFngu7TfQKsCBgAA6pWDkT8MAO7d0jyOecVhN5354xbLqdn8mV9Tat9gepAupm0bt2DbeaSC8vS52MuFA==}
     dev: false
@@ -176,6 +222,17 @@ packages:
     resolution: {integrity: sha512-2iGbaQBV+ITgCz76ZEjmhUKAKVf7xfY1sRl4UiKQspfZMH2h06SyhNsnSVy50cwkFQDGLyif6m/6uFXHkOZ6rg==}
     hasBin: true
     dev: false
+
+  /once/1.4.0:
+    resolution: {integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==}
+    dependencies:
+      wrappy: 1.0.2
+    dev: true
+
+  /path-is-absolute/1.0.1:
+    resolution: {integrity: sha512-AVbw3UJ2e9bq64vSaS9Am0fje1Pa8pbGqTTsmXfaIiMpnr5DlDhfJOuLj9Sf95ZPVDAUerDfEk88MPmPe7UCQg==}
+    engines: {node: '>=0.10.0'}
+    dev: true
 
   /peek-readable/5.0.0:
     resolution: {integrity: sha512-YtCKvLUOvwtMGmrniQPdO7MwPjgkFBtFIrmfSbYmYuq3tKDV/mcfAhBth1+C3ru7uXIZasc/pHnb+YDYNkkj4A==}
@@ -197,6 +254,13 @@ packages:
     dependencies:
       readable-stream: 3.6.0
     dev: false
+
+  /rimraf/3.0.2:
+    resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
+    hasBin: true
+    dependencies:
+      glob: 7.2.3
+    dev: true
 
   /safe-buffer/5.2.1:
     resolution: {integrity: sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==}
@@ -248,6 +312,10 @@ packages:
   /util-deprecate/1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: false
+
+  /wrappy/1.0.2:
+    resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
+    dev: true
 
   /ws/8.8.1_22kvxa7zeyivx4jp72v2w3pkvy:
     resolution: {integrity: sha512-bGy2JzvzkPowEJV++hF07hAD6niYSr0JzBNo/J29WsB57A2r7Wlc1UFcTR9IzrPvuNVO4B8LGqF8qcpsVOhJCA==}
