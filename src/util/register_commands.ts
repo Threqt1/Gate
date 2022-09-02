@@ -22,5 +22,14 @@ export async function registerCommands(
         body: commands.map((r) => r.info.toJSON()),
       }
     );
+  } else {
+    await rest.put(
+      Routes.applicationCommands(
+        process.env.clientId!,
+      ),
+      {
+        body: commands.map((r) => r.info.toJSON()),
+      }
+    );
   }
 }

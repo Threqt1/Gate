@@ -27,6 +27,6 @@ const client = new Client({
       toBeRegistered.push(configuration);
     }
   }
-  registerCommands(toBeRegistered);
+  await registerCommands(toBeRegistered);
   return client.login(process.env.token);
 })();
