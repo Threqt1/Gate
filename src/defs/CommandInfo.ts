@@ -1,6 +1,10 @@
-import { Client, SlashCommandBuilder } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  Client,
+  SlashCommandBuilder,
+} from "discord.js";
 
 export interface CommandInfo {
-  callback: (client: Client, ...args: any) => void;
+  callback: (client: Client, interaction: ChatInputCommandInteraction) => void;
   info: SlashCommandBuilder;
 }

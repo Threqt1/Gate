@@ -1,9 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import { CommandInfo } from "../../defs/CommandInfo";
 
-const configuration: CommandInfo = {
-  callback: (client) => {},
+export = {
+  callback: async (client, interaction) => {},
   info: new SlashCommandBuilder().setName("test").setDescription("For testing"),
-};
-
-export { configuration };
+} as CommandInfo;

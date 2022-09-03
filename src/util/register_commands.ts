@@ -1,6 +1,5 @@
-import { CommandInfo } from "../defs/CommandInfo";
-import { REST } from "@discordjs/rest";
-import { Routes } from "discord.js";
+import { REST, Routes } from "discord.js";
+import { RegisteredCommandInfo } from "../defs/RegisteredCommandInfo";
 
 interface ApplicationCommandJSON {
   name: string;
@@ -8,7 +7,7 @@ interface ApplicationCommandJSON {
 }
 
 export async function registerCommands(
-  commands: CommandInfo[],
+  commands: RegisteredCommandInfo[],
   locally: boolean = true
 ) {
   const rest = new REST({ version: "10" }).setToken(process.env.token!);
@@ -23,13 +22,8 @@ export async function registerCommands(
       }
     );
   } else {
-    await rest.put(
-      Routes.applicationCommands(
-        process.env.clientId!,
-      ),
-      {
-        body: commands.map((r) => r.info.toJSON()),
-      }
-    );
+    await rest.put(Routes.applicationCommands(process.env.clientId!), {
+      body: commands.map((r) => r.info.toJSON()),
+    });
   }
 }
