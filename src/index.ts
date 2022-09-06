@@ -1,7 +1,14 @@
+/* TODO:
+1. Test the new guildMemberAdd, Remove functions (custom emit events)
+2. Add accepting command (/joins)
+3. Make it role specific
+*/
+
 require("dotenv").config();
 
 import { readdir } from "fs/promises";
-import { join } from "path";
+import path, { join } from "path";
+import { QuickDB } from "quick.db";
 import { CommandInfo } from "./defs/CommandInfo";
 
 import { Client, Collection, GatewayIntentBits } from "discord.js";
@@ -13,20 +20,24 @@ declare module "discord.js" {
   export interface Client {
     commands: Collection<String, RegisteredCommandInfo>;
     categories: Collection<String, RegisteredCommandInfo[]>;
+    db: QuickDB;
   }
 }
 
 const client = new Client({
-  intents: [GatewayIntentBits.Guilds],
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers],
 });
 client.commands = new Collection();
 client.categories = new Collection();
+client.db = new QuickDB({
+  filePath: path.join(__dirname, "..", "..", "..", "database.sqlite"),
+});
 
 (async () => {
   const eventsPath = join(__dirname, "events");
-  const eventFiles = await (
-    await readdir(eventsPath)
-  ).filter((r) => r.endsWith(".js"));
+  const eventFiles = (await readdir(eventsPath)).filter((r) =>
+    r.endsWith(".js")
+  );
   for (const eventFile of eventFiles) {
     const configuration: EventInfo = require(join(eventsPath, eventFile));
     if (configuration.once) {
@@ -46,9 +57,7 @@ client.categories = new Collection();
   for (const folder of folders) {
     client.categories.set(folder, []);
     const folderPath = join(commandsPath, folder);
-    const files = await (
-      await readdir(folderPath)
-    ).filter((r) => r.endsWith(".js"));
+    const files = (await readdir(folderPath)).filter((r) => r.endsWith(".js"));
     for (const file of files) {
       const configuration: CommandInfo = require(join(folderPath, file));
       toBeRegistered.push({
