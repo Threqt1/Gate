@@ -30,7 +30,7 @@ const client = new Client({
 client.commands = new Collection();
 client.categories = new Collection();
 client.db = new QuickDB({
-  filePath: path.join(__dirname, "..", "..", "..", "database.sqlite"),
+  filePath: path.join(__dirname, "..", "database.sqlite"),
 });
 
 (async () => {
