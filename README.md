@@ -4,7 +4,7 @@
 </p>
 
 <p align="center">
-A bot made for the Game's discord server using discord.js
+A bot made for the Games discord server using discord.js
 </p>
 
 <hr>
