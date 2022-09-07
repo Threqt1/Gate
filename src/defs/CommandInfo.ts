@@ -6,5 +6,7 @@ import {
 
 export interface CommandInfo {
   callback: (client: Client, interaction: ChatInputCommandInteraction) => void;
-  info: SlashCommandBuilder;
+  info:
+    | SlashCommandBuilder
+    | Omit<SlashCommandBuilder, "addSubcommand" | "addSubcommandGroup">;
 }

@@ -43,12 +43,12 @@ client.db = new QuickDB({
     const configuration: EventInfo = require(join(eventsPath, eventFile));
     if (configuration.once) {
       client.once(configuration.event, (...args) =>
-        configuration.callback(client, args)
+        configuration.callback(client, ...args)
       );
     } else {
-      client.on(configuration.event, (...args) =>
-        configuration.callback(client, args)
-      );
+      client.on(configuration.event, (...args) => {
+        return configuration.callback(client, ...args);
+      });
     }
   }
 
