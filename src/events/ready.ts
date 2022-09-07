@@ -1,4 +1,5 @@
-import { DBInfo } from "../defs/DBInfo";
+import { Guild, GuildMember, Message, TextChannel } from "discord.js";
+import { DBInfo, DBGuildInfo, DBGuildEntryInfo } from "../defs/DBInfo";
 import { EventInfo } from "../defs/EventInfo";
 
 export = {
@@ -16,14 +17,44 @@ export = {
       await client.db.set("db", freshDb);
       registeredGuilds = freshDb;
     }
-    for (let [guildId, info] of Object.entries(registeredGuilds)) {
-      let guild = null;
+    const guildEntries: [string, DBGuildInfo][] =
+      Object.entries(registeredGuilds);
+    for (let [guildId, info] of guildEntries) {
+      let guild: Guild | null = null;
       try {
         guild = await client.guilds.fetch(guildId);
       } catch (e) {}
       if (!guild) {
         await client.db.delete(`db.guilds.${guildId}`);
         continue;
+      }
+      const ticketEntries: [string, DBGuildEntryInfo][] = Object.entries(
+        info.entries
+      );
+      for (let [userId, ticketInfo] of ticketEntries) {
+        let member: GuildMember | null = null;
+        try {
+          member = await guild.members.fetch(userId);
+        } catch (e) {}
+        if (!member) {
+          let channel: TextChannel | null = null;
+          try {
+            channel = (await guild.channels.fetch(
+              ticketInfo.channel_id
+            )) as TextChannel;
+          } catch (e) {}
+          if (channel) {
+            let message: Message | null = null;
+            try {
+              message = await channel.messages.fetch(ticketInfo.message_id);
+            } catch (e) {}
+            if (message) {
+              await message.delete();
+            }
+          }
+          await client.db.delete(`db.guilds.${guildId}.entries.${userId}`);
+          await client.db.pull(`db.used_ids`, ticketInfo.id);
+        }
       }
     }
   },

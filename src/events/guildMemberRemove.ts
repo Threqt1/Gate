@@ -1,4 +1,4 @@
-import { GuildMember } from "discord.js";
+import { Guild, GuildMember, Message, TextChannel } from "discord.js";
 import { DBGuildEntryInfo, DBGuildInfo } from "../defs/DBInfo";
 import { EventInfo } from "../defs/EventInfo";
 
@@ -6,7 +6,7 @@ export = {
   event: "guildMemberRemove",
   once: false,
   callback: async (client, member: GuildMember) => {
-    let guild = null;
+    let guild: Guild | null = null;
     try {
       guild = await client.guilds.fetch(member);
     } catch (e) {}
@@ -15,14 +15,16 @@ export = {
         `db.guilds.${guild.id}.entries.${member.id}`
       );
       if (possibleEntry) {
-        let channel = null;
+        let channel: TextChannel | null = null;
         try {
-          channel = await guild.channels.fetch(possibleEntry.channel_id);
+          channel = (await guild.channels.fetch(
+            possibleEntry.channel_id
+          )) as TextChannel;
         } catch (e) {}
         if (channel) {
-          let message = null;
+          let message: Message | null = null;
           try {
-            message = await guild.channels.fetch(possibleEntry.message_id);
+            message = await channel.messages.fetch(possibleEntry.message_id);
           } catch (e) {}
           if (message) {
             await message.delete();

@@ -1,4 +1,10 @@
-import { EmbedBuilder, GuildMember, TextChannel } from "discord.js";
+import {
+  EmbedBuilder,
+  Guild,
+  GuildMember,
+  Message,
+  TextChannel,
+} from "discord.js";
 import { DBGuildInfo } from "../defs/DBInfo";
 import { EventInfo } from "../defs/EventInfo";
 import { generateId } from "../util/generate_id";
@@ -7,9 +13,9 @@ export = {
   event: "guildMemberAdd",
   once: false,
   callback: async (client, member: GuildMember) => {
-    let guild = null;
+    let guild: Guild | null = null;
     try {
-      guild = await client.guilds.fetch(member);
+      guild = await member.guild.fetch();
     } catch (e) {}
     if (guild && guild.available) {
       let guildData: DBGuildInfo | null = await client.db.get(
@@ -25,35 +31,43 @@ export = {
       }
       const previousEntry = guildData.entries[member.id];
       if (previousEntry) {
-        let prevChannel = null;
+        let prevChannel: TextChannel | null = null;
         try {
-          prevChannel = await guild.channels.fetch(previousEntry.channel_id);
+          prevChannel = (await guild.channels.fetch(
+            previousEntry.channel_id
+          )) as TextChannel;
         } catch (e) {}
         if (prevChannel) {
-          let prevMessage = null;
+          let prevMessage: Message | null = null;
           try {
-            prevMessage = await (prevChannel as TextChannel).messages.fetch(
+            prevMessage = await prevChannel.messages.fetch(
               previousEntry.message_id
             );
           } catch (e) {}
           if (prevMessage) {
-            prevMessage.delete();
+            await prevMessage.delete();
           }
         }
         await client.db.pull(`db.used_ids`, previousEntry.id);
       }
-      let channel = null;
+      let channel: TextChannel | null = null;
       if (guildData.entry_channel) {
         try {
-          channel = await guild.channels.fetch(guildData.entry_channel);
+          channel = (await guild.channels.fetch(
+            guildData.entry_channel
+          )) as TextChannel;
         } catch (e) {}
       }
       if (!channel) {
         if (!guild.systemChannelId) return;
         try {
-          channel = await guild.channels.fetch(guild.systemChannelId);
+          channel = (await guild.channels.fetch(
+            guild.systemChannelId
+          )) as TextChannel;
         } catch (e) {}
-        if (!channel) return;
+        if (!channel) {
+          return;
+        }
         const updatedInfo = Object.assign(guildData, {
           entry_channel: guild.systemChannelId,
         });
@@ -67,14 +81,15 @@ export = {
         .setColor("Orange")
         .setTitle(`Join Request #${joinId}`)
         .setAuthor({
-          name: member.toString(),
+          name: member.user.username,
           iconURL: member.displayAvatarURL(),
         })
+        .setDescription(member.toString())
         .setFooter({
-          text: `Use \`/joins accept ${joinId}\` to accept this user`,
+          text: `/joins accept ${joinId}`,
         })
         .setTimestamp();
-      const message = await (channel as TextChannel).send({
+      const message = await channel.send({
         embeds: [Embed],
       });
       guildData.entries[member.id] = {
