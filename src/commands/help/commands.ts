@@ -14,7 +14,7 @@ export = {
     await interaction.deferReply({
       ephemeral: true,
     });
-    let BaseEmbed = new EmbedBuilder().setTitle("Commands");
+    let BaseEmbed = new EmbedBuilder().setTitle("Commands").setColor("Orange");
     let Pages: Collection<string, EmbedBuilder> = new Collection();
     let ActionRow = new ActionRowBuilder();
     let SelectMenu = new SelectMenuBuilder()

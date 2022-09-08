@@ -24,13 +24,16 @@ export = {
         if (channel) {
           let message: Message | null = null;
           try {
-            message = await channel.messages.fetch(possibleEntry.message_id);
+            message = await channel.messages.fetch({
+              message: possibleEntry.message_id,
+            });
           } catch (e) {}
           if (message) {
-            await message.delete();
+            try {
+              await message.delete();
+            } catch (e) {}
           }
         }
-        await client.db.pull(`db.used_ids`, possibleEntry.id);
         return client.db.delete(`db.guilds.${guild.id}.entries.${member.id}`);
       }
     }

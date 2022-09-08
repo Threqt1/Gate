@@ -11,7 +11,6 @@ export = {
     let registeredGuilds: DBInfo | null = await client.db.get("db");
     if (!registeredGuilds) {
       const freshDb: DBInfo = {
-        used_ids: [],
         guilds: {},
       };
       await client.db.set("db", freshDb);
@@ -46,14 +45,17 @@ export = {
           if (channel) {
             let message: Message | null = null;
             try {
-              message = await channel.messages.fetch(ticketInfo.message_id);
+              message = await channel.messages.fetch({
+                message: ticketInfo.message_id,
+              });
             } catch (e) {}
             if (message) {
-              await message.delete();
+              try {
+                await message.delete();
+              } catch (e) {}
             }
           }
           await client.db.delete(`db.guilds.${guildId}.entries.${userId}`);
-          await client.db.pull(`db.used_ids`, ticketInfo.id);
         }
       }
     }
