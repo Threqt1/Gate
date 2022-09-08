@@ -37,6 +37,7 @@ token=TOKEN-GOES-HERE
 clientId=ID-OF-YOUR-BOT
 devGuildId=ID-OF-THE-TESTING-SERVER
 acceptedRole=ROLE-ID-TO-GIVE-ONCE-ACCEPTED
+requiredRole=ROLE-ID-REQUIRED-TO-ACCEPT-PEOPLE
 ```
 
 ## 💻 Usage
