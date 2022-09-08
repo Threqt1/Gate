@@ -3,8 +3,15 @@ import { CommandInfo } from "../../defs/CommandInfo";
 
 export = {
   callback: async (client, interaction) => {
+    await interaction.deferReply();
+    if (
+      ["637098379377246229", "811273777933189191"].includes(
+        interaction.user.id
+      ) === false
+    )
+      return interaction.editReply("You cannot execute this command!");
     const emitted = interaction.options.getString("event");
-    await interaction.reply("Emitting " + emitted + " event...");
+    await interaction.editReply("Emitting " + emitted + " event...");
     if (interaction.guild) {
       let me: GuildMember | null = null;
       try {

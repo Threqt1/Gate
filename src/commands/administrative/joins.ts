@@ -61,7 +61,18 @@ async function acceptUser(
     } catch (e) {}
     if (message) {
       try {
-        await message.delete();
+        const Embed = new EmbedBuilder()
+          .setColor("Orange")
+          .setTitle(`Join Request`)
+          .setAuthor({
+            name: member.user.username,
+            iconURL: member.displayAvatarURL(),
+          })
+          .setDescription(
+            `${member.toString()} was accepted by ${execMember.toString()}`
+          )
+          .setTimestamp();
+        await message.edit({ embeds: [Embed] });
       } catch (e) {}
     }
   }
@@ -129,7 +140,18 @@ async function rejectUser(
     } catch (e) {}
     if (message) {
       try {
-        await message.delete();
+        const Embed = new EmbedBuilder()
+          .setColor("Orange")
+          .setTitle(`Join Request`)
+          .setAuthor({
+            name: member.user.username,
+            iconURL: member.displayAvatarURL(),
+          })
+          .setDescription(
+            `${member.toString()} was rejected by ${execMember.toString()}`
+          )
+          .setTimestamp();
+        await message.edit({ embeds: [Embed] });
       } catch (e) {}
     }
   }
