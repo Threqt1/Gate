@@ -1,6 +1,6 @@
 <h1 align="center">Gate</h1>
 <p align="center">
-<a href="https://nodejs.org/en/"><img src="https://img.shields.io/badge/language-nodejs-%23339933?style=flat-square&logo=node.js"></a>
+<a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/language-typescript-3178C6?style=flat-square&logo=typescript"></a>
 </p>
 
 <p align="center">
