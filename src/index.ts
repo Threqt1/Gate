@@ -1,6 +1,4 @@
 /* TODO:
-0. Add checks for removing left guilds, removing entries for userids not in the guild anymore in ready.js
-1. Test the new guildMemberAdd, Remove functions (custom emit events)
 2. Add accepting command (/joins)
 3. Make it role specific
 */

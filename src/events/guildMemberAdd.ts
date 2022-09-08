@@ -7,7 +7,6 @@ import {
 } from "discord.js";
 import { DBGuildInfo } from "../defs/DBInfo";
 import { EventInfo } from "../defs/EventInfo";
-import { generateId } from "../util/generate_id";
 
 export = {
   event: "guildMemberAdd",
@@ -40,64 +39,55 @@ export = {
         if (prevChannel) {
           let prevMessage: Message | null = null;
           try {
-            prevMessage = await prevChannel.messages.fetch(
-              previousEntry.message_id
-            );
+            prevMessage = await prevChannel.messages.fetch({
+              message: previousEntry.message_id,
+            });
           } catch (e) {}
           if (prevMessage) {
-            await prevMessage.delete();
+            try {
+              await prevMessage.delete();
+            } catch (e) {}
           }
         }
-        await client.db.pull(`db.used_ids`, previousEntry.id);
       }
       let channel: TextChannel | null = null;
       if (guildData.entry_channel) {
         try {
-          channel = (await guild.channels.fetch(
-            guildData.entry_channel
-          )) as TextChannel;
+          channel = (await guild.channels.fetch(guildData.entry_channel, {
+            force: true,
+          })) as TextChannel;
         } catch (e) {}
       }
       if (!channel) {
         if (!guild.systemChannelId) return;
         try {
-          channel = (await guild.channels.fetch(
-            guild.systemChannelId
-          )) as TextChannel;
+          channel = (await guild.channels.fetch(guild.systemChannelId, {
+            force: true,
+          })) as TextChannel;
         } catch (e) {}
         if (!channel) {
           return;
         }
-        const updatedInfo = Object.assign(guildData, {
-          entry_channel: guild.systemChannelId,
-        });
-        guildData = updatedInfo;
+        guildData.entry_channel = guild.systemChannelId;
       }
-      let currentIds: string[] | null = await client.db.get("db.used_ids");
-      if (!currentIds) currentIds = [];
-      let joinId = generateId();
-      while (currentIds.includes(joinId)) joinId = generateId();
       const Embed = new EmbedBuilder()
         .setColor("Orange")
-        .setTitle(`Join Request #${joinId}`)
+        .setTitle(`Join Request`)
         .setAuthor({
           name: member.user.username,
           iconURL: member.displayAvatarURL(),
         })
-        .setDescription(member.toString())
-        .setFooter({
-          text: `/joins accept ${joinId}`,
-        })
+        .setDescription(
+          `Type \`/joins accept \`${member.toString()} to accept this user\nType \`/joins reject \`${member.toString()} to reject this user`
+        )
         .setTimestamp();
       const message = await channel.send({
         embeds: [Embed],
       });
       guildData.entries[member.id] = {
-        id: joinId,
         channel_id: channel.id,
         message_id: message.id,
       };
-      await client.db.push(`db.used_ids`, joinId);
       return client.db.set(`db.guilds.${guild.id}`, guildData);
     }
   },
