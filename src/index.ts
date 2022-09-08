@@ -1,9 +1,22 @@
 /* TODO:
-2. Add accepting command (/joins)
-3. Make it role specific
+
 */
 
 require("dotenv").config();
+const REQUIRED_KEYS = [
+  "token",
+  "clientId",
+  "devGuildId",
+  "acceptedRole",
+  "requiredRole",
+];
+const KEYS = Object.keys(process.env!);
+const MISSING_KEYS = REQUIRED_KEYS.filter((r) => KEYS.includes(r) === false);
+if (MISSING_KEYS.length > 0)
+  throw new Error(
+    "The .env file doesn't contain the following needed keys: " +
+      MISSING_KEYS.join(", ")
+  );
 
 import { readdir } from "fs/promises";
 import path, { join } from "path";

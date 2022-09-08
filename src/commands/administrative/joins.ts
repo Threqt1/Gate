@@ -17,8 +17,19 @@ async function acceptUser(
   interaction: ChatInputCommandInteraction
 ) {
   let member = interaction.options.getMember("user") as GuildMember | null;
-  if (!interaction.guild || !member)
+  if (!(interaction.guild && interaction.inGuild() && member))
     return interaction.editReply("Command not executed in a guild!");
+  let execMember: GuildMember =
+    (interaction.member as GuildMember) ||
+    (await interaction.guild.members.fetch(interaction.user.id));
+  if (
+    !execMember.roles.cache.find(
+      (role) => role.id === process.env.requiredRole!
+    )
+  )
+    return interaction.editReply(
+      "You do not have permission to execute this command!"
+    );
   let guildData: DBGuildInfo | null = await client.db.get(
     `db.guilds.${interaction.guild.id}`
   );
@@ -74,8 +85,19 @@ async function rejectUser(
   interaction: ChatInputCommandInteraction
 ) {
   let member = interaction.options.getMember("user") as GuildMember | null;
-  if (!interaction.guild || !member)
+  if (!(interaction.guild && interaction.inGuild() && member))
     return interaction.editReply("Command not executed in a guild!");
+  let execMember: GuildMember =
+    (interaction.member as GuildMember) ||
+    (await interaction.guild.members.fetch(interaction.user.id));
+  if (
+    !execMember.roles.cache.find(
+      (role) => role.id === process.env.requiredRole!
+    )
+  )
+    return interaction.editReply(
+      "You do not have permission to execute this command!"
+    );
   let guildData: DBGuildInfo | null = await client.db.get(
     `db.guilds.${interaction.guild.id}`
   );
@@ -124,8 +146,19 @@ async function setChannel(
   client: Client,
   interaction: ChatInputCommandInteraction
 ) {
-  if (!interaction.guild)
-    return interaction.editReply("Command not executed in a guild!");
+  if (!(interaction.guild && interaction.inGuild()))
+    return interaction.editReply("Command must be executed in a guild!");
+  let execMember: GuildMember =
+    (interaction.member as GuildMember) ||
+    (await interaction.guild.members.fetch(interaction.user.id));
+  if (
+    !execMember.roles.cache.find(
+      (role) => role.id === process.env.requiredRole!
+    )
+  )
+    return interaction.editReply(
+      "You do not have permission to execute this command!"
+    );
   let guildData: DBGuildInfo | null = await client.db.get(
     `db.guilds.${interaction.guild.id}`
   );
@@ -151,7 +184,7 @@ async function listRequests(
   client: Client,
   interaction: ChatInputCommandInteraction
 ) {
-  if (!interaction.guild)
+  if (!(interaction.guild && interaction.inGuild()))
     return interaction.editReply("Command not executed in a guild!");
   let guildData: DBGuildInfo | null = await client.db.get(
     `db.guilds.${interaction.guild.id}`
